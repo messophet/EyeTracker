@@ -5,9 +5,6 @@
 #include <QImage>
 #include <QPainter>
 #include <QQuickItem>
-#include <QSGGeometry>
-#include <QSGGeometryNode>
-#include <QSGSimpleTextureNode>
 
 class CameraView : public QQuickPaintedItem
 {

@@ -60,7 +60,8 @@ void EyeTracking::receiveGrabFrame(const QImage& image)
 
     //convert cv::Mat to QImage
     cv::Mat temp; // make the same cv::Mat
-    cvtColor(m_frameOriginal, temp, cv::COLOR_BGR2RGB);
+    cv::resize(m_frameOriginal, temp, cv::Size(640, 600), 0, 0, cv::INTER_AREA);
+    cvtColor(temp, temp, cv::COLOR_BGR2RGB);
     QImage dest((const uchar *) temp.data, temp.cols, temp.rows, temp.step, QImage::Format_RGB888);
     dest.bits();
 

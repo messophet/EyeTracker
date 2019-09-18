@@ -4,7 +4,6 @@
 #include <QObject>
 #include <QVariant>
 #include <QThread>
-#include <QPixmap>
 #include <QCamera>
 #include "cameraframegrabber.h"
 #include "eyetracking.h"

@@ -1,5 +1,4 @@
 #include "imagechanger.h"
-#include <QTimer>
 #include <QDebug>
 
 ImageChanger::~ImageChanger()

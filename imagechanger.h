@@ -34,7 +34,8 @@ private:
     QThread *m_thread;
     QCamera *m_camera;
     CameraFrameGrabber *m_cameraFrameGrabber;
-    EyeTracking *m_worker;
+//    EyeTracking *m_worker;
+    QSharedPointer<EyeTracking> m_worker;
 };
 
 #endif // IMAGECHANGER_H

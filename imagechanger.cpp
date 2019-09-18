@@ -5,7 +5,7 @@
 ImageChanger::~ImageChanger()
 {
     m_thread->quit();
-    while(!m_thread->isFinished());
+    m_thread->wait();
 
     delete m_thread;
 }
@@ -18,27 +18,23 @@ ImageChanger::ImageChanger(QObject* parent) : QObject(parent)
 void ImageChanger::setup()
 {
     // the middleman between all things good
-    m_thread = new QThread();
-
-    m_camera = new QCamera();
-    m_cameraFrameGrabber = new CameraFrameGrabber();
+    m_thread = new QThread(this);
+    m_camera = new QCamera(this);
+    m_cameraFrameGrabber = new CameraFrameGrabber(this);
     m_camera->setViewfinder(m_cameraFrameGrabber);
 
-    m_worker = new EyeTracking();
+    m_worker = QSharedPointer<EyeTracking>(new EyeTracking, &QObject::deleteLater);
+//    m_worker = new EyeTracking();
 
-    connect(m_cameraFrameGrabber, SIGNAL(frameAvailable(QImage)), m_worker, SLOT(receiveGrabFrame(QImage)));
-    connect(m_worker, SIGNAL(sendFrame(QImage)), this, SLOT(receiveFrame(QImage)));
-
-    connect(this, SIGNAL(sendSetup(int)), m_worker, SLOT(receiveSetup(int)));
-    connect(this, SIGNAL(sendToggleTracking()), m_worker, SLOT(receiveToggleTracking()));
-
-    connect(m_thread, SIGNAL(finished()), m_worker, SLOT(deleteLater()));
-    connect(m_thread, SIGNAL(finished()), m_worker, SLOT(deleteLater()));
+    connect(m_cameraFrameGrabber, SIGNAL(frameAvailable(QImage)), m_worker.data(), SLOT(receiveGrabFrame(QImage)));
+    connect(m_worker.data(), SIGNAL(sendFrame(QImage)), this, SLOT(receiveFrame(QImage)));
+    connect(this, SIGNAL(sendSetup(int)), m_worker.data(), SLOT(receiveSetup(int)));
+    connect(this, SIGNAL(sendToggleTracking()), m_worker.data(), SLOT(receiveToggleTracking()));
+//    connect(m_thread, SIGNAL(finished()), m_worker.data(), SLOT(deleteLater()));
 
     m_worker->moveToThread(m_thread);
-
-    m_thread->start();
     m_camera->start();
+    m_thread->start();
 
     emit sendSetup(0);
 }

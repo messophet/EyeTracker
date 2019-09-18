@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>VideoCaptureControls.qml</file>
+        <file>CameraButton.qml</file>
+        <file>images/toolbutton.sci</file>
+        <file>images/toolbutton.png</file>
+        <file>images/kenny.png</file>
+    </qresource>
+</RCC>

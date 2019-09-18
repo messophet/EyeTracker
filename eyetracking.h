@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QImage>
-#include <QCamera>
 
 #include <opencv2/objdetect.hpp>
 #include <opencv2/core/core.hpp>
@@ -19,7 +18,6 @@ private:
     cv::Mat m_frameProcessed;
     cv::CascadeClassifier m_eyesCascade;
     cv::CascadeClassifier m_faceCascade;
-    QCamera m_camera;
 
     bool status;
     bool toggleTracking;
